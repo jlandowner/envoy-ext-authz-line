@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"flag"
 	"fmt"
@@ -26,12 +27,11 @@ import (
 var o = &options{}
 
 type options struct {
-	LINEClientID            string
-	Port                    int
-	TLSPrivateKeyPath       string
-	TLSCertPath             string
-	Insecure                bool
-	GracefulShutdownSeconds int
+	LINEClientID      string
+	Port              int
+	TLSPrivateKeyPath string
+	TLSCertPath       string
+	Insecure          bool
 }
 
 func main() {
@@ -40,7 +40,6 @@ func main() {
 	flag.StringVar(&o.TLSPrivateKeyPath, "tls-key", "tls.key", "TLS key file path")
 	flag.StringVar(&o.TLSCertPath, "tls-cert", "tls.crt", "TLS certificate file path")
 	flag.BoolVar(&o.Insecure, "insecure", false, "start http server not https server")
-	flag.IntVar(&o.GracefulShutdownSeconds, "graceful-shutdown-seconds", 10, "proxy graceful shutdown seconds")
 	flag.Parse()
 
 	var log logr.Logger
@@ -63,11 +62,12 @@ func main() {
 	}
 
 	// Register UsersServer to gRPC Server
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", o.Port))
+	ln, err := setupListener(o)
 	if err != nil {
-		log.Error(err, "failed to listen port", "port", o.Port)
+		log.Error(err, "failed to setup listener", "port", o.Port)
 		os.Exit(1)
 	}
+
 	srv := grpc.NewServer()
 	authv3.RegisterAuthorizationServer(srv, authz)
 
@@ -81,7 +81,7 @@ func main() {
 	}()
 
 	// Start server
-	if err := srv.Serve(listener); err != nil {
+	if err := srv.Serve(ln); err != nil {
 		log.Error(err, "failed to start server")
 	}
 }
@@ -103,6 +103,28 @@ func validteOptions(o *options) error {
 		return errors.New("LINEClientID is required")
 	}
 	return nil
+}
+
+func setupListener(o *options) (net.Listener, error) {
+	if o.Insecure {
+		ln, err := net.Listen("tcp", fmt.Sprintf(":%d", o.Port))
+		if err != nil {
+			return nil, fmt.Errorf("failed to listen port: %w", err)
+		}
+		return ln, nil
+
+	} else {
+		cer, err := tls.LoadX509KeyPair(o.TLSCertPath, o.TLSPrivateKeyPath)
+		if err != nil {
+			return nil, fmt.Errorf("failed to load keypair: %w", err)
+		}
+		cfg := tls.Config{Certificates: []tls.Certificate{cer}}
+		ln, err := tls.Listen("tcp", fmt.Sprintf(":%d", o.Port), &cfg)
+		if err != nil {
+			return nil, fmt.Errorf("failed to listen port: %w", err)
+		}
+		return ln, nil
+	}
 }
 
 func setupSignalHandler(log logr.Logger) context.Context {
