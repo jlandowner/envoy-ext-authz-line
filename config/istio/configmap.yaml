@@ -1,0 +1,11 @@
+# edit the existing configmap and add provider.
+# kubectl edit configmap istio -n istio-system.
+# https://istio.io/latest/docs/tasks/security/authorization/authz-custom/#define-the-external-authorizer
+data:
+  mesh: |-
+    # Add the following content to define the external authorizers.
+    extensionProviders:
+    - name: "envoy-ext-authz-line"
+      envoyExtAuthzGrpc:
+        service: "envoy-ext-authz-line.envoy-ext-authz-line.svc.cluster.local"
+        port: "9443"

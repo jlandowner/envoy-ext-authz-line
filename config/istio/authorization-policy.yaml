@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: envoy-ext-authz-line
+spec:
+  selector:
+    matchLabels:
+      app: example-service # edit here
+  action: CUSTOM
+  provider:
+    name: envoy-ext-authz-line

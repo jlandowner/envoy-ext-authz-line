@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
+spec:
+  ports:
+  - name: https
+    port: 9443
+    protocol: TCP
+    targetPort: 9443
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - image: ghcr/jlandowner/envoy-ext-authz-line:latest
+        imagePullPolicy: IfNotPresent
+        name: envoy-ext-authz-line
+        args:
+        - --port=9443
+        - --line-client-id=YOUR_CLIENT_ID
+        ports:
+        - containerPort: 9443
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        volumeMounts:
+        - mountPath: /app/cert
+          name: cert
+          readOnly: true
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: authz-server-cert
+

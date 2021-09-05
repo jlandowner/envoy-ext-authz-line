@@ -1,0 +1,13 @@
+apiVersion: projectcontour.io/v1alpha1
+kind: ExtensionService
+metadata:
+  name: envoy-ext-authz-line
+  namemespace: envoy-ext-authz-line
+spec:
+  protocol: h2
+  services:
+  - name: envoy-ext-authz-line
+    port: 9443
+  protocolVersion: v3
+  validation:
+    caSecret: authz-server-cert
