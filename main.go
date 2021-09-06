@@ -132,7 +132,7 @@ func setupSignalHandler(log logr.Logger) context.Context {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		log.WithName("signalHandler").Info("got shutdown signals. do gracefull shutdown")
+		log.WithName("signalHandler").Info("got shutdown signals. do graceful shutdown")
 		cancel()
 		<-c
 		log.WithName("signalHandler").Info("got shutdown signals again. force quit")
