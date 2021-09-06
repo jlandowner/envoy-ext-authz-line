@@ -32,6 +32,7 @@ type options struct {
 	TLSPrivateKeyPath string
 	TLSCertPath       string
 	Insecure          bool
+	Debug             bool
 }
 
 func main() {
@@ -40,13 +41,25 @@ func main() {
 	flag.StringVar(&o.TLSPrivateKeyPath, "tls-key", "tls.key", "TLS key file path")
 	flag.StringVar(&o.TLSCertPath, "tls-cert", "tls.crt", "TLS certificate file path")
 	flag.BoolVar(&o.Insecure, "insecure", false, "start http server not https server")
+	flag.BoolVar(&o.Debug, "debug", false, "whether zap.NewProduction or zap.NewDevelopment")
 	flag.Parse()
 
 	var log logr.Logger
-	zapLog, err := zap.NewDevelopment()
-	if err != nil {
-		panic(err)
+	var zapLog *zap.Logger
+	if o.Debug {
+		l, err := zap.NewDevelopment()
+		if err != nil {
+			panic(err)
+		}
+		zapLog = l
+	} else {
+		l, err := zap.NewProduction()
+		if err != nil {
+			panic(err)
+		}
+		zapLog = l
 	}
+
 	log = zapr.NewLogger(zapLog)
 	printOptions(log)
 	if err := validteOptions(o); err != nil {
