@@ -10,7 +10,3 @@ spec:
   services:
   - name: envoy-ext-authz-line
     port: 9443
-  protocolVersion: v3
-  validation:
-    caSecret: authz-server-cert
-    subjectName: envoy-ext-authz-line.envoy-ext-authz-line.svc.cluster.local
