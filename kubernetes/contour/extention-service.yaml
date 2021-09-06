@@ -4,7 +4,7 @@ apiVersion: projectcontour.io/v1alpha1
 kind: ExtensionService
 metadata:
   name: envoy-ext-authz-line
-  namemespace: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
 spec:
   protocol: h2
   services:
@@ -13,3 +13,4 @@ spec:
   protocolVersion: v3
   validation:
     caSecret: authz-server-cert
+    subjectName: envoy-ext-authz-line.envoy-ext-authz-line.svc.cluster.local
