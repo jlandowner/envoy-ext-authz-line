@@ -2,7 +2,7 @@
 
 Example configurations to enable external authorization in [istio](https://istio.io/)
 
-## How to use with contour
+## How to use with istio
 
 0. Preconditions: [Istio](https://istio.io/latest/docs/setup/getting-started/) is installed
 
