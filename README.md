@@ -8,11 +8,17 @@ Simple LINE Login authorization implementation of Envoy External Authorization A
 
 https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto
 
+# How to use
+
+- [Use with Istio](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/istio/)
+
+- [Use with Contour](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/contour/)
+
 # How it works
 
 [Envoy External Authorization](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto.html) is a feature to intercept user request with custom authorization. 
 
-This package interact with envoy and check the http request header.
+This package interact with envoy and check the http request headers.
 
 Extract LINE access token from header `Authorization: Bearer LINE_ACCESS_TOKEN` and authorize it upstream LINE Login service.
 
@@ -26,11 +32,18 @@ Detail of LINE Login API
 
 https://developers.line.biz/en/docs/line-login/
 
-# How to use
+## LINE User profile header keys
 
-- [Use with Istio](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/istio/)
+Authorized LINE User profile can be available in http request header by the following keys.
 
-- [Use with Contour](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/contour/)
+- `LINEUserID`
+- `LINEDisplayName`
+- `LINEPictureURL`
+- `LINEStatusMessage`
+
+Detail of each contents.
+
+https://developers.line.biz/en/reference/line-login/#get-user-profile
 
 # License
 MIT
