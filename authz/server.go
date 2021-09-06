@@ -1,4 +1,4 @@
-package line
+package authz
 
 import (
 	"context"
@@ -21,15 +21,15 @@ const (
 	authHeader string = "authorization"
 )
 
-// AuthzServer implements the envoy AuthorizationServer
+// LINEAuthzServer implements the envoy AuthorizationServer
 // https://pkg.go.dev/github.com/envoyproxy/go-control-plane/envoy/service/auth/v3#AuthorizationServer
-type AuthzServer struct {
+type LINEAuthzServer struct {
 	Log    logr.Logger
 	Client *goline.Client
 }
 
 // Check checks the authorization header. Extract bearer LINE access token from the header and authorize it upstream LINE Login service.
-func (s *AuthzServer) Check(ctx context.Context, req *authv3.CheckRequest) (*authv3.CheckResponse, error) {
+func (s *LINEAuthzServer) Check(ctx context.Context, req *authv3.CheckRequest) (*authv3.CheckResponse, error) {
 	res := &authv3.CheckResponse{
 		Status: &status.Status{},
 	}
@@ -108,7 +108,7 @@ func extractToken(authHeader string) (string, error) {
 }
 
 // Run start grpc server
-func (s *AuthzServer) Run(ctx context.Context, lis net.Listener) error {
+func (s *LINEAuthzServer) Run(ctx context.Context, lis net.Listener) error {
 	if s.Client == nil {
 		panic("goline client is nil")
 	}

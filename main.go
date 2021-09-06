@@ -17,7 +17,7 @@ import (
 	"github.com/go-logr/zapr"
 	"go.uber.org/zap"
 
-	"github.com/jlandowner/envoy-ext-authz-line/pkg/line"
+	"github.com/jlandowner/envoy-ext-authz-line/authz"
 	"github.com/jlandowner/goline"
 )
 
@@ -66,7 +66,7 @@ func main() {
 
 	ctx := setupSignalHandler(log)
 
-	authz := &line.AuthzServer{
+	authz := &authz.LINEAuthzServer{
 		Log:    log.WithName("AuthzServer"),
 		Client: goline.NewClient(o.LINEClientID, http.DefaultClient),
 	}

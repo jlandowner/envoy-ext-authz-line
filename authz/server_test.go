@@ -1,4 +1,4 @@
-package line
+package authz
 
 import (
 	"context"
@@ -20,7 +20,7 @@ import (
 // TODO: in order to test OK case, replace VALID_CLIENT_ID to the valid value.
 var clientid = "VALID_CLIENT_ID"
 
-func TestAuthzServer(t *testing.T) {
+func TestLINEAuthzServer(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -34,7 +34,7 @@ func TestAuthzServer(t *testing.T) {
 	addr, ok := lis.Addr().(*net.TCPAddr)
 	assert.True(ok)
 
-	serv := &AuthzServer{
+	serv := &LINEAuthzServer{
 		Log:    zapr.NewLogger(zapLog),
 		Client: goline.NewClient(clientid, http.DefaultClient),
 	}
