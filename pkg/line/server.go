@@ -22,7 +22,13 @@ type AuthzServer struct {
 func (s *AuthzServer) Check(ctx context.Context, req *authv3.CheckRequest) (*authv3.CheckResponse, error) {
 	res := &authv3.CheckResponse{}
 
-	ah, ok := req.Attributes.Request.Http.Headers["Authorization"]
+	s.Log.V(1).Info("incoming request",
+		"attributes", req.GetAttributes(),
+		"request", req.GetAttributes().GetRequest(),
+		"http", req.GetAttributes().GetRequest().GetHttp(),
+		"headers", req.GetAttributes().GetRequest().GetHttp().GetHeaders())
+
+	ah, ok := req.GetAttributes().GetRequest().GetHttp().GetHeaders()["Authorization"]
 	if !ok {
 		s.Log.Error(errors.New("invalid header"), "Authorization header not found")
 		res.Status.Code = int32(code.Code_UNAUTHENTICATED)
