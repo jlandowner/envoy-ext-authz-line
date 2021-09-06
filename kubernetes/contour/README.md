@@ -9,7 +9,7 @@ Example configurations to enable external authorization in [contour](https://pro
 1. Deploy authz server.
 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/kubernetes/authz-server-cert-manager.yaml
+kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/authz-server-cert-manager.yaml
 ```
 
 2. Edit LINE Client ID (LINE Channel ID)
@@ -34,7 +34,7 @@ kubectl edit deploy envoy-ext-authz-line -n envoy-ext-authz-line
 3. Apply extention service
 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/kubernetes/contour/extension-service.yaml
+kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/contour/extension-service.yaml
 ```
 
 5. Create your own HTTPProxy with authorization
