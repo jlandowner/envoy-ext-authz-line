@@ -13,12 +13,9 @@ import (
 	"reflect"
 	"syscall"
 
-	authv3 "github.com/envoyproxy/go-control-plane/envoy/service/auth/v3"
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zapr"
 	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 
 	"github.com/jlandowner/envoy-ext-authz-line/pkg/line"
 	"github.com/jlandowner/goline"
@@ -70,31 +67,19 @@ func main() {
 	ctx := setupSignalHandler(log)
 
 	authz := &line.AuthzServer{
-		Log:    log,
+		Log:    log.WithName("AuthzServer"),
 		Client: goline.NewClient(o.LINEClientID, http.DefaultClient),
 	}
 
 	// Register UsersServer to gRPC Server
-	ln, err := setupListener(o)
+	lis, err := setupListener(o)
 	if err != nil {
 		log.Error(err, "failed to setup listener", "port", o.Port)
 		os.Exit(1)
 	}
 
-	srv := grpc.NewServer()
-	authv3.RegisterAuthorizationServer(srv, authz)
-
-	// Add grpc.reflection.v1alpha.ServerReflection
-	reflection.Register(srv)
-
-	go func() {
-		<-ctx.Done()
-		log.Info("shutdowning...")
-		srv.GracefulStop()
-	}()
-
 	// Start server
-	if err := srv.Serve(ln); err != nil {
+	if err := authz.Run(ctx, lis); err != nil {
 		log.Error(err, "failed to start server")
 	}
 }
