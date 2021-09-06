@@ -14,7 +14,7 @@ kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-l
 
 2. Edit LINE Client ID (LINE Channel ID)
 
-Edit [LINE Client ID](https://developers.line.biz/ja/reference/line-login) to yours.
+Edit [LINE Client ID](https://developers.line.biz/en/reference/line-login) to yours.
 
 ```sh
 kubectl edit deploy envoy-ext-authz-line -n envoy-ext-authz-line
@@ -43,7 +43,7 @@ Contour [HTTPProxy](https://projectcontour.io/docs/latest/config/fundamentals/) 
 
 Bring your own HTTPProxy and update to use authorization.
 
-See [httpproxy.yaml](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/contour/httpproxy.yaml ) as example. 
+See [httpproxy.yaml](https://github.com/jlandowner/envoy-ext-authz-line/blob/main/kubernetes/contour/httpproxy.yaml) as example. 
 
 ## Reference
 
