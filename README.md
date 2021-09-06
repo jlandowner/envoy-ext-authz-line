@@ -1,3 +1,7 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/jlandowner/envoy-ext-authz-line)](https://goreportcard.com/report/github.com/jlandowner/envoy-ext-authz-line)
+[![Go Reference](https://pkg.go.dev/badge/github.com/jlandowner/envoy-ext-authz-line.svg)](https://pkg.go.dev/github.com/jlandowner/envoy-ext-authz-line)
+[![GHCR](https://img.shields.io/badge/download-github_packages-brightgreen)](https://github.com/jlandowner/kubernetes-route53-sync/pkgs/container/kubernetes-route53-sync)
+
 # Simple LINE Login implementation for Envoy External Authorization
 
 LINE Login authorization service implementing Envoy External Authorization API.
