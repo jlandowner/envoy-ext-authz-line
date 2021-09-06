@@ -43,9 +43,9 @@ func TestLINEAuthzServer(t *testing.T) {
 
 	// Prepare the gRPC request.
 	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", addr.Port), grpc.WithInsecure())
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	assert.Nil(err)
+	assert.NotNil(conn)
+
 	defer conn.Close()
 	grpcV3Client := authv3.NewAuthorizationClient(conn)
 
@@ -73,7 +73,7 @@ func TestLINEAuthzServer(t *testing.T) {
 		{
 			name:   "not auth header",
 			header: "",
-			want:   int(code.Code_ABORTED),
+			want:   int(code.Code_UNAUTHENTICATED),
 		},
 	}
 	for _, tc := range cases {
@@ -82,22 +82,18 @@ func TestLINEAuthzServer(t *testing.T) {
 				Attributes: &authv3.AttributeContext{
 					Request: &authv3.AttributeContext_Request{
 						Http: &authv3.AttributeContext_HttpRequest{
-							Host:    "localhost",
-							Path:    "/",
-							Headers: map[string]string{authHeader: tc.header},
+							Host: "localhost",
+							Path: "/",
 						},
 					},
 				},
 			}
-			if tc.header == "" {
-				delete(req.Attributes.Request.Http.Headers, authHeader)
+			if tc.header != "" {
+				req.Attributes.Request.Http.Headers = map[string]string{authHeader: tc.header}
 			}
 
 			resp, err := grpcV3Client.Check(ctx, req)
-			if err != nil {
-				t.Errorf(err.Error())
-				return
-			}
+			assert.Nil(err)
 
 			got := int(resp.Status.Code)
 			if got != tc.want {
