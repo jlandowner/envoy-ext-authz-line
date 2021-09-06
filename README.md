@@ -4,7 +4,7 @@
 
 # LINE Login authorizer for Envoy External Authorization
 
-Simple LINE Login authorization implementation of Envoy External Authorization API.
+Simple LINE Login authorization implementation of Envoy External Authorization protocol.
 
 https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto
 
