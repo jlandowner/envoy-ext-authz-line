@@ -22,8 +22,6 @@ This package interact with envoy and check the http request headers.
 
 Extract LINE access token from header `Authorization: Bearer LINE_ACCESS_TOKEN` and authorize it upstream LINE Login service.
 
-Then if the upstream authorization is passed, append LINE User info set on the header to be able to use at backend service.
-
 See the LINE official docs how to properly manage access token between client and server.
 
 https://developers.line.biz/en/docs/line-login/secure-login-process/
@@ -33,8 +31,9 @@ Detail of LINE Login API
 https://developers.line.biz/en/docs/line-login/
 
 ## LINE User profile header keys
+If the upstream authorization is passed, LINE User profile info will be added to the request headers so that it can be used by the backend services.
 
-Authorized LINE User profile can be available in http request header by the following keys.
+The authorized LINE User profile info can be available by the following header keys.
 
 - `LINEUserID`
 - `LINEDisplayName`
