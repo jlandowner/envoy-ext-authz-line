@@ -21,12 +21,12 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr/jlandowner/envoy-ext-authz-line:latest
+      - image: ghcr.io/jlandowner/envoy-ext-authz-line:latest
         imagePullPolicy: IfNotPresent
         name: envoy-ext-authz-line
         args:
         - --port=9443
-        - --line-client-id=YOUR_CLIENT_ID
+        - --insecure
         ports:
         - containerPort: 9443
           name: http
@@ -38,13 +38,3 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 15
           periodSeconds: 20
-        volumeMounts:
-        - mountPath: /app/cert
-          name: cert
-          readOnly: true
-      volumes:
-      - name: cert
-        secret:
-          defaultMode: 420
-          secretName: authz-server-cert
-

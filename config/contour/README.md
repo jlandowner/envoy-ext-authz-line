@@ -1,4 +1,8 @@
-# contuor exmaple
+# Contour exmaple
+
+Example configurations to enable external authorization in [contour](https://projectcontour.io/)
+
+## Reference
 
 https://projectcontour.io/guides/external-authorization/
 

@@ -1,0 +1,73 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-issuer
+  namespace: envoy-ext-authz-line
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
+spec:
+  dnsNames:
+  - envoy-ext-authz-line.envoy-ext-authz-line.svc
+  - envoy-ext-authz-line.envoy-ext-authz-line.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
+  secretName: authz-server-cert
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
+spec:
+  ports:
+  - name: https
+    port: 9443
+    protocol: TCP
+    targetPort: 9443
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-ext-authz-line
+  namespace: envoy-ext-authz-line
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - image: ghcr.io/jlandowner/envoy-ext-authz-line:latest
+        imagePullPolicy: IfNotPresent
+        name: envoy-ext-authz-line
+        args:
+        - --port=9443
+        - --line-client-id=YOUR_CLIENT_ID
+        - --tls-cert=/app/cert/tls.crt
+        - --tls-key=/app/cert/tls.key
+        ports:
+        - containerPort: 9443
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        volumeMounts:
+        - mountPath: /app/cert
+          name: cert
+          readOnly: true
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: authz-server-cert

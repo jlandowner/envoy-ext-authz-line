@@ -1,5 +1,5 @@
 # edit the existing configmap and add provider.
-# kubectl edit configmap istio -n istio-system.
+# kubectl edit configmap istio -n istio-system
 # https://istio.io/latest/docs/tasks/security/authorization/authz-custom/#define-the-external-authorizer
 data:
   mesh: |-
