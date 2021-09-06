@@ -9,7 +9,7 @@ Example configurations to enable external authorization in [istio](https://istio
 1. Deploy authz server.
 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/kubernetes/authz-server.yaml
+kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/authz-server.yaml
 ```
 
 2. Edit LINE Client ID (LINE Channel ID)
@@ -62,7 +62,7 @@ Apply [AuthorizationPolicy](https://istio.io/latest/docs/reference/config/securi
 
 ```sh
 APP_NAMESPACE=YOUR_APP_NAMESPACE
-kubectl create -n $APP_NAMESPACE -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/kubernetes/istio/authz-policy.yaml
+kubectl create -n $APP_NAMESPACE -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/istio/authz-policy.yaml
 ```
 
 Edit with your app info
