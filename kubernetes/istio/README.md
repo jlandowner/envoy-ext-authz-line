@@ -2,7 +2,7 @@
 
 Example configurations to enable external authorization in [istio](https://istio.io/)
 
-## How to use with contour
+## How to use with istio
 
 0. Preconditions: [Istio](https://istio.io/latest/docs/setup/getting-started/) is installed
 
@@ -33,7 +33,7 @@ kubectl edit deploy envoy-ext-authz-line -n envoy-ext-authz-line
 
 3. Update istio global mesh config
 
-Update istio global mesh config to add [extensionProviders](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
+Update istio global mesh config to add [ExtensionProviders](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
 
 ```sh
 kubectl edit configmap istio -n istio-system
