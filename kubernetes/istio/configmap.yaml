@@ -1,5 +1,11 @@
-# edit the existing configmap and add provider.
-# kubectl edit configmap istio -n istio-system
+# This is a global mesh config.
+# Edit the existing configmap and add extensionProviders section.
+# $ kubectl edit configmap istio -n istio-system
+#
+# And restart istiod.
+# $ kubectl rollout restart deployment/istiod -n istio-system
+#
+# Reference
 # https://istio.io/latest/docs/tasks/security/authorization/authz-custom/#define-the-external-authorizer
 data:
   mesh: |-

@@ -1,3 +1,5 @@
+# Apply this config in envoy-ext-authz-line namespace
+# No need to edit
 apiVersion: projectcontour.io/v1alpha1
 kind: ExtensionService
 metadata:

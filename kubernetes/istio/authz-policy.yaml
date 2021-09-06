@@ -1,0 +1,15 @@
+# Apply this config in your app namespace. (Not envoy-ext-authz-line namespace)
+# $ kubectl create -f authz-policy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: envoy-ext-authz-line
+spec:
+  selector:
+    matchLabels:
+      app: example-service # edit here with your app labels that you want to make secure.
+  action: CUSTOM
+  provider:
+    name: envoy-ext-authz-line
+  rules:
+    - {}
