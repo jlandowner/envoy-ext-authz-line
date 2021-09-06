@@ -71,7 +71,6 @@ func main() {
 		Client: goline.NewClient(o.LINEClientID, http.DefaultClient),
 	}
 
-	// Register UsersServer to gRPC Server
 	lis, err := setupListener(o)
 	if err != nil {
 		log.Error(err, "failed to setup listener", "port", o.Port)

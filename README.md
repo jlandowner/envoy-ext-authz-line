@@ -4,7 +4,7 @@
 
 # LINE Login authorizer for Envoy External Authorization
 
-Simple LINE Login authorization implementation of Envoy External Authorization API.
+Simple LINE Login authorization implementation of Envoy External Authorization protocol.
 
 https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto
 
@@ -16,13 +16,13 @@ https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth
 
 # How it works
 
-[Envoy External Authorization](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto.html) is a feature to intercept user request with custom authorization. 
+[Envoy External Authorization](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto.html) is a feature to intercept user request with custom authorizations. 
 
 This package interact with envoy and check the http request headers.
 
 Extract LINE access token from header `Authorization: Bearer LINE_ACCESS_TOKEN` and authorize it upstream LINE Login service.
 
-See the LINE official docs how to properly manage access token between client and server.
+See the LINE official docs how to manage access token properly between client and server.
 
 https://developers.line.biz/en/docs/line-login/secure-login-process/
 
@@ -40,7 +40,7 @@ The authorized LINE User profile info can be available by the following header k
 - `LINEPictureURL`
 - `LINEStatusMessage`
 
-Detail of each contents.
+See the docs about details of each contents.
 
 https://developers.line.biz/en/reference/line-login/#get-user-profile
 
