@@ -34,7 +34,7 @@ kubectl edit deploy envoy-ext-authz-line -n envoy-ext-authz-line
 3. Apply extention service
 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/contour/extension-service.yaml
+kubectl create -f https://raw.githubusercontent.com/jlandowner/envoy-ext-authz-line/main/kubernetes/contour/extention-service.yaml
 ```
 
 5. Create your own HTTPProxy with authorization
